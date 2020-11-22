@@ -217,6 +217,10 @@ footer {
   font-size: 2rem;
 }
 
+form {
+  border: 1px solid;
+}
+
 @media screen and (max-width: 980px) {
   form .form-group {
     flex: 1 100%;
@@ -231,3 +235,4 @@ footer {
   }
 
 }
+
