@@ -1,5 +1,6 @@
 var formEl = document.querySelector('#task-form') //selects form div
 var tasksToDoEl = document.querySelector('#tasks-to-do'); //selects ul
+var pageContentEl = document.querySelector('#page-content'); //selects main body
 var taskIdCounter = 0;
 
 var taskFormHandler = function(event) {
@@ -40,28 +41,28 @@ var createTaskEl = function(taskDataObj) {
 	taskIdCounter++;
 };
 
-var createTaskActions = function(taskID) {
+var createTaskActions = function(taskId) {
 	var actionContainerEl = document.createElement('div');
 	actionContainerEl.className = 'task-actions';
 
 	var editButtonEl = document.createElement('button');
 	editButtonEl.textContent = 'Edit';
 	editButtonEl.className = 'btn edit-btn';
-	editButtonEl.setAttribute('data-task-id',taskID);
+	editButtonEl.setAttribute('data-task-id',taskId);
 
 	actionContainerEl.appendChild(editButtonEl);
 
 	var deleteButtonEl = document.createElement('button');
 	deleteButtonEl.textContent = 'Delete';
 	deleteButtonEl.className = 'btn delete-btn';
-	deleteButtonEl.setAttribute('data-task-id',taskID);
+	deleteButtonEl.setAttribute('data-task-id',taskId);
 
 	actionContainerEl.appendChild(deleteButtonEl);
 
 	var statusSelectEl = document.createElement('select');
 	statusSelectEl.className = 'select-status';
 	statusSelectEl.setAttribute('name','status-change');
-	statusSelectEl.setAttribute('data-task-id', taskID);
+	statusSelectEl.setAttribute('data-task-id', taskId);
 
 	var statusChoices = ['To Do','In Progress','Completed'];
 
@@ -71,13 +72,26 @@ var createTaskActions = function(taskID) {
 		statusOptionEl.setAttribute('value', statusChoices[i]);
 		statusSelectEl.appendChild(statusOptionEl);
 	}
-
-
 	actionContainerEl.appendChild(statusSelectEl);
-
 	return actionContainerEl;
 };
 
+var taskButtonHandler = function(event) {
+	console.log(event.target);
+
+	if(event.target.matches('.delete-btn')) {
+		var taskId = event.target.getAttribute('data-task-id');
+		deleteTask(taskId);
+	}
+}
+
+var deleteTask = function(taskId) {
+	var taskSelected = document.querySelector('.task-item[data-task-id="'+taskId+'"]');
+	taskSelected.remove();
+}
+
+
 
 formEl.addEventListener('submit',taskFormHandler);
+pageContentEl.addEventListener('click', taskButtonHandler);
 
